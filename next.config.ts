@@ -1,7 +1,8 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  // Just transpile GSAP packages
+  transpilePackages: ['gsap', '@gsap/react'],
 };
 
 export default nextConfig;
