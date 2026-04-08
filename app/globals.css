@@ -1,8 +1,11 @@
 @import "tailwindcss";
-/* THEME CUSTOMIZATION - Tailwind v4 uses @theme */
+
+/* THEME CUSTOMIZATION - Optimized for the "Burning" aesthetic */
 @theme {
-  --color-background: #050505;
+  --color-background: #050000;
   --color-peligram-blue: #2563eb;
+  --color-peligram-red: #ff4d00;
+  --color-peligram-orange: #ff8800;
   --color-peligram-green: #10b981;
   --font-sans: 'Inter', var(--font-geist-sans), system-ui, -apple-system, sans-serif;
   --font-mono: 'JetBrains Mono', var(--font-geist-mono), 'Courier New', monospace;
@@ -17,7 +20,7 @@
   }
   
   body {
-    background-color: #050505;
+    background-color: #050000;
     color: white;
     font-family: var(--font-sans);
     overflow-x: hidden;
@@ -25,123 +28,98 @@
   
   html {
     scroll-behavior: smooth;
-    perspective: 1000px;
+    /* Increased perspective for the 3D animal/frame effects */
+    perspective: 2000px;
   }
 }
 
-/* CUSTOM SCROLLBAR */
+/* THERMAL SCROLLBAR */
 @layer utilities {
   ::-webkit-scrollbar {
-    width: 5px;
+    width: 4px;
   }
   
   ::-webkit-scrollbar-track {
-    background: #050505;
+    background: #050000;
   }
   
   ::-webkit-scrollbar-thumb {
-    background: #2563eb;
-    border-radius: 3px;
+    background: linear-gradient(to bottom, #ff8800, #ff4d00);
+    border-radius: 10px;
   }
   
   ::-webkit-scrollbar-thumb:hover {
-    background: #3b82f6;
+    background: #ff0000;
+  }
+
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
   }
 }
 
-/* 3D GRID UTILITY */
-.grid-card {
-  background-color: #0a0a0a;
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  transition: all 0.5s ease;
-}
-
-/* Motherboard Grid Pattern */
+/* MOTHERBOARD GRID - Thermal Variant */
 .motherboard-grid {
   background-image: 
-    linear-gradient(to right, rgba(255,255,255,0.03) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(255,255,255,0.03) 1px, transparent 1px);
-  background-size: 40px 40px;
-  mask-image: radial-gradient(circle at center, black, transparent 80%);
-  -webkit-mask-image: radial-gradient(circle at center, black, transparent 80%);
+    linear-gradient(to right, rgba(255, 77, 0, 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 77, 0, 0.05) 1px, transparent 1px);
+  background-size: 50px 50px;
+  mask-image: radial-gradient(circle at center, black, transparent 90%);
+  -webkit-mask-image: radial-gradient(circle at center, black, transparent 90%);
 }
 
-/* Parallax Layer */
-.parallax-layer {
-  transform-style: preserve-3d;
-}
-
-/* Circuit Line Animation */
-.circuit-line {
-  background: linear-gradient(90deg, transparent, #2563eb, transparent);
+/* BURNING CIRCUIT LINE */
+.circuit-line-heat {
+  background: linear-gradient(90deg, transparent, #ff4d00, #ff8800, transparent);
   height: 1px;
   width: 100%;
   position: absolute;
-  animation: circuit-flow 3s infinite linear;
+  animation: circuit-flow 4s infinite linear;
+  filter: blur(1px);
 }
 
 @keyframes circuit-flow {
-  0% { 
-    transform: translateX(-100%); 
-  }
-  100% { 
-    transform: translateX(100%); 
-  }
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
 }
 
-/* GSAP Animation Base Classes */
-.gsap-reveal {
-  opacity: 0;
-  visibility: hidden;
-}
-
-/* Glassmorphism Utility */
+/* GLASSMORPHISM - Dark Ember Variant */
 .glass {
-  background: rgba(10, 10, 10, 0.8);
-  backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.05);
-}
-
-/* Hide scrollbar for entry page */
-.no-scrollbar {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-}
-.no-scrollbar::-webkit-scrollbar {
-  display: none;
+  background: rgba(10, 2, 0, 0.85);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 77, 0, 0.1);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.8);
 }
 
 /* ============================================
-   GSAP ANIMATION CLASSES
+   GSAP & PERFORMANCE OPTIMIZATION
    ============================================ */
 
-/* Base classes for GSAP animations */
+/* Optimization for complex 3D transforms */
 .gsap-fade-up,
-.gsap-stagger,
+.gsap-stagger > *,
 .gsap-scale,
 .line-grow {
+  opacity: 0;
   will-change: transform, opacity;
+  backface-visibility: hidden;
+  -webkit-font-smoothing: antialiased;
 }
 
-/* Prevent FOUC (Flash of Unstyled Content) - elements start invisible */
-.gsap-fade-up,
-.gsap-scale,
-.line-grow {
-  opacity: 0;
-}
-
-/* Stagger children start invisible */
-.gsap-stagger > * {
-  opacity: 0;
-}
-
-/* Parallax background setup */
 .parallax-bg {
   will-change: transform;
 }
 
-/* Ensure smooth 3D transforms */
-.gsap-scale {
-  transform-style: preserve-3d;
-  backface-visibility: hidden;
+/* High-intensity Glow Text */
+.text-glow-red {
+  text-shadow: 0 0 15px rgba(255, 77, 0, 0.5), 0 0 30px rgba(255, 77, 0, 0.2);
+}
+
+/* For Three.js Canvas containers */
+.canvas-container {
+  mask-image: radial-gradient(circle at center, black 60%, transparent 100%);
+  pointer-events: auto !important;
 }

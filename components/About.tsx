@@ -355,15 +355,16 @@ const About: React.FC = () => {
                 className="relative rounded-3xl overflow-hidden border border-white/20 shadow-2xl bg-black/60 backdrop-blur-sm"
               >
                 <div className="relative aspect-[4/3] overflow-hidden">
-                  <Image
-                    src="/drug.webp"
-                    alt="Mpondwe Community Vision"
-                    fill
-                    className="object-cover"
-                    priority
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-purple-900/60 via-transparent to-blue-900/30" />
-                </div>
+  <Image
+    src="/drug.webp"
+    alt="Mpondwe Community Vision"
+    fill
+    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+    className="object-cover"
+    priority
+  />
+  <div className="absolute inset-0 bg-gradient-to-t from-purple-900/60 via-transparent to-blue-900/30" />
+</div>
 
                 {/* Floating Animals */}
                 <motion.div

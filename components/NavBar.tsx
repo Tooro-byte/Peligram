@@ -1,6 +1,6 @@
 'use client';
-import React, { useState, useEffect } from 'react';
-import { Menu, X, Upload, Sparkles, Zap } from 'lucide-react';
+import React, { useState } from 'react';
+import { Menu, X, Sparkles, Zap } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 interface NavLink {
@@ -14,13 +14,14 @@ interface NavbarProps {
 
 const navLinks: NavLink[] = [
   { name: "Home", href: "#home" },
-  { name: "About", href: "#about" },
+  { name: "About Us", href: "#about-us" },
+  { name: "Products", href: "#products" },
+  { name: "OUR WORK", href: "#about" },
   { name: "Pipeline", href: "#pipeline" },
   { name: "Philosophy", href: "#philosophy" },
-  { name: "Contact", href: "#contact" }
+  { name: "Make a Move", href: "#contact" }
 ];
 
-// Glass morphism color palette: Pink, Teal, Purple, Coral blend
 const colors = {
   pink: '#ff2d75',
   pinkLight: '#ff6b9d',
@@ -39,74 +40,11 @@ const colors = {
 
 const Navbar: React.FC<NavbarProps> = ({ isScrolled }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState<boolean>(false);
-  const [logoError, setLogoError] = useState<boolean>(false);
-  const [customLogo, setCustomLogo] = useState<string | null>(null);
-
-  // Check for logo in public folder on mount
-  useEffect(() => {
-    const possiblePaths = ['/logo.png', '/logo.svg', '/logo.webp', '/brand/logo.png', '/images/logo.png'];
-    
-    const checkLogo = async (path: string) => {
-      try {
-        const response = await fetch(path, { method: 'HEAD' });
-        if (response.ok) {
-          setCustomLogo(path);
-          return true;
-        }
-      } catch {
-        return false;
-      }
-      return false;
-    };
-
-    const findLogo = async () => {
-      for (const path of possiblePaths) {
-        const found = await checkLogo(path);
-        if (found) break;
-      }
-    };
-
-    findLogo();
-  }, []);
-
-  // Handle logo upload from local machine
-  const handleLogoUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setCustomLogo(reader.result as string);
-        setLogoError(false);
-        localStorage.setItem('customLogo', reader.result as string);
-      };
-      reader.readAsDataURL(file);
-    }
-  };
-
-  // Load saved logo from localStorage on mount
-  useEffect(() => {
-    const savedLogo = localStorage.getItem('customLogo');
-    if (savedLogo) {
-      setCustomLogo(savedLogo);
-    }
-  }, []);
-
-  const scrollToPipeline = () => {
-    const pipelineSection = document.getElementById('pipeline');
-    if (pipelineSection) {
-      pipelineSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
-    setMobileMenuOpen(false);
-  };
 
   const handleNavClick = (href: string) => {
-    if (href === '#pipeline') {
-      scrollToPipeline();
-    } else {
-      const element = document.querySelector(href);
-      if (element) {
-        element.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }
+    const element = document.querySelector(href);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
     setMobileMenuOpen(false);
   };
@@ -116,8 +54,7 @@ const Navbar: React.FC<NavbarProps> = ({ isScrolled }) => {
       initial={{ y: -100, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.8, ease: [0.25, 0.1, 0.25, 1] }}
-      // CHANGED: 'fixed' to 'sticky top-0' to make it stick at the top on scroll
-      className={`sticky top-0 w-full z-50 px-6 md:px-12 py-4 transition-all duration-500 backdrop-blur-xl`}
+      className={`fixed top-0 w-full z-50 px-6 md:px-12 py-4 transition-all duration-500 backdrop-blur-xl`}
       style={{
         background: isScrolled 
           ? `linear-gradient(135deg, ${colors.glassBg}, rgba(30, 15, 45, 0.8))`
@@ -128,7 +65,6 @@ const Navbar: React.FC<NavbarProps> = ({ isScrolled }) => {
           : `0 4px 20px rgba(0, 0, 0, 0.15), inset 0 1px 0 ${colors.glassHighlight}`,
       }}
     >
-      {/* Animated gradient overlay */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden rounded-b-2xl">
         <div className="absolute -top-40 -left-40 w-80 h-80 rounded-full mix-blend-screen filter blur-3xl animate-pulse" 
           style={{ background: colors.pink, opacity: 0.15 }} />
@@ -139,49 +75,36 @@ const Navbar: React.FC<NavbarProps> = ({ isScrolled }) => {
       </div>
 
       <div className="max-w-7xl mx-auto flex items-center justify-between relative z-10">
-        {/* Logo with Upload Feature */}
-        <div className="flex items-center gap-3 group">
+        {/* Logo Section */}
+        <div className="flex items-center gap-3 group cursor-pointer" onClick={() => handleNavClick('#home')}>
           <div className="relative">
-            {customLogo && !logoError ? (
-              <img 
-                src={customLogo} 
-                alt="Logo" 
-                className="w-15 h-15 object-contain rounded-xl"
-                onError={() => setLogoError(true)}
-              />
-            ) : (
-              <div 
-                className="w-15 h-15 rounded-xl flex items-center justify-center font-black text-white text-sm transition-all duration-300 group-hover:scale-110 group-hover:shadow-2xl"
-                style={{
-                  background: `linear-gradient(135deg, ${colors.pink}, ${colors.teal}, ${colors.purple})`,
-                  boxShadow: `0 0 20px ${colors.pinkGlow}, 0 0 10px ${colors.tealGlow}`,
-                  animation: 'gradientShift 3s ease infinite',
-                  backgroundSize: '200% 200%',
-                }}
-              >
-                <Sparkles size={18} className="text-white" />
-              </div>
-            )}
-            
-            {/* Upload Button - appears on hover */}
-            <label className="absolute -bottom-1 -right-1 w-4 h-4 bg-white/20 backdrop-blur-md border border-white/30 rounded-full cursor-pointer opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-center justify-center hover:scale-110">
-              <input
-                type="file"
-                accept="image/*"
-                onChange={handleLogoUpload}
-                className="hidden"
-              />
-              <Upload size={8} className="text-white" />
-            </label>
+            <img 
+              src="/logo.jpg" 
+              alt="Peligram Intelligence Logo" 
+              className="w-12 h-12 object-contain rounded-xl transition-all duration-300 group-hover:scale-110"
+              onError={(e) => {
+                e.currentTarget.style.display = 'none';
+                const fallback = e.currentTarget.nextElementSibling;
+                if (fallback) fallback.classList.remove('hidden');
+              }}
+            />
+            <div className="hidden w-12 h-12 rounded-xl flex items-center justify-center font-black text-white text-sm"
+              style={{
+                background: `linear-gradient(135deg, ${colors.pink}, ${colors.teal}, ${colors.purple})`,
+                boxShadow: `0 0 20px ${colors.pinkGlow}`,
+              }}
+            >
+              <Sparkles size={18} />
+            </div>
           </div>
           
           <span className="font-bold tracking-tight text-xl bg-gradient-to-r from-pink-400 via-teal-400 to-purple-400 bg-clip-text text-transparent animate-gradient">
-            Peligram<span style={{ color: colors.teal }}>.</span>
+            Peligram
           </span>
         </div>
 
         {/* Desktop Navigation */}
-        <div className="hidden md:flex items-center gap-8">
+        <div className="hidden md:flex items-center gap-6">
           {navLinks.map((link) => (
             <button
               key={link.name}
@@ -210,7 +133,7 @@ const Navbar: React.FC<NavbarProps> = ({ isScrolled }) => {
           </button>
         </div>
 
-        {/* System Status - Glass morphism style */}
+        {/* System Status */}
         <div className="hidden lg:flex items-center gap-3 border-l pl-5 backdrop-blur-sm" style={{ borderLeftColor: colors.glassBorder }}>
           <div className="flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 backdrop-blur-sm border border-white/10">
             <div 
@@ -218,7 +141,7 @@ const Navbar: React.FC<NavbarProps> = ({ isScrolled }) => {
               style={{ backgroundColor: colors.teal, boxShadow: `0 0 8px ${colors.teal}` }}
             />
             <span className="text-[8px] font-mono uppercase tracking-wider" style={{ color: colors.teal }}>
-              Active
+              Gateway Active
             </span>
           </div>
           <Zap size={12} className="text-pink-400" />
@@ -235,7 +158,7 @@ const Navbar: React.FC<NavbarProps> = ({ isScrolled }) => {
         </button>
       </div>
 
-      {/* Mobile Menu - Glass morphism */}
+      {/* Mobile Menu */}
       <AnimatePresence>
         {mobileMenuOpen && (
           <motion.div
@@ -268,18 +191,6 @@ const Navbar: React.FC<NavbarProps> = ({ isScrolled }) => {
               >
                 Join Protocol
               </button>
-              
-              {/* Mobile Status */}
-              <div className="flex items-center justify-between mt-3 pt-3 border-t px-3" style={{ borderTopColor: colors.glassBorder }}>
-                <div className="flex items-center gap-2">
-                  <div 
-                    className="w-1.5 h-1.5 rounded-full animate-pulse"
-                    style={{ backgroundColor: colors.teal }}
-                  />
-                  <span className="text-[8px] font-mono" style={{ color: colors.teal }}>System Online</span>
-                </div>
-                <span className="text-[8px] font-mono text-white/30">✦ glass core ✦</span>
-              </div>
             </div>
           </motion.div>
         )}
@@ -291,13 +202,11 @@ const Navbar: React.FC<NavbarProps> = ({ isScrolled }) => {
           50% { background-position: 100% 50%; }
           100% { background-position: 0% 50%; }
         }
-        
         @keyframes gradient {
           0% { background-position: 0% 50%; }
           50% { background-position: 100% 50%; }
           100% { background-position: 0% 50%; }
         }
-        
         .animate-gradient {
           animation: gradient 3s ease infinite;
           background-size: 200% 200%;

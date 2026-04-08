@@ -1,27 +1,29 @@
-'use client';
-import { useState, useEffect } from 'react';
-import { AnimatePresence } from 'framer-motion';
-import { useGsapScroll } from '../hooks/useGsapScroll'; // ← ADD THIS
-import Navbar from "../components/NavBar"; // Fixed: NavBar → Navbar
+"use client";
+import { useState, useEffect } from "react";
+import { AnimatePresence } from "framer-motion";
+import { useGsapScroll } from "../hooks/useGsapScroll";
+import AboutUs from "../components/AboutUs";
+import Navbar from "../components/NavBar";
 import Hero from "../components/Hero";
+import Products from "../components/Products";
 import About from "../components/About";
-import SkillPipeline from "../components/SkillPipline"; // Fixed: SkillPipline → SkillPipeline
+import SkillPipeline from "../components/SkillPipline";
 import Philosophy from "../components/Philosophy";
 import Contact from "../components/Contact";
-import Footer from "../components/Footer"; // Fixed: @/components → relative path
+import Footer from "../components/Footer";
 import EntryPage from "../components/EntryPage";
 
 export default function Home() {
   const [showEntry, setShowEntry] = useState(true);
   const [isScrolled, setIsScrolled] = useState(false);
-  const containerRef = useGsapScroll(); // ← ADD THIS
+  const containerRef = useGsapScroll();
 
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50);
     };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   return (
@@ -31,10 +33,7 @@ export default function Home() {
       </AnimatePresence>
 
       {/* ADD containerRef to the main wrapper */}
-      <div 
-        ref={containerRef}
-        className={`${!showEntry ? 'block' : 'hidden'}`}
-      >
+      <div ref={containerRef} className={`${!showEntry ? "block" : "hidden"}`}>
         <main className="min-h-screen bg-[#050505] relative scroll-smooth selection:bg-blue-500/30">
           {/* 21ST CENTURY BACKGROUND GRID */}
           <div
@@ -64,8 +63,11 @@ export default function Home() {
 
             {/* 5. CALL TO ACTION: Registration Protocol */}
             <Contact />
+
+            <AboutUs />
+            <Products />
           </div>
-          
+
           {/* SYSTEM FOOTER */}
           <Footer />
         </main>

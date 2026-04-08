@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
@@ -14,14 +14,20 @@ const geistMono = Geist_Mono({
   display: "swap",
 });
 
+// Viewport must be a separate export in Next.js 14/15
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  themeColor: "#050505",
+};
+
 export const metadata: Metadata = {
   title: "Peligram Intelligence | Engineering Human Agency",
   description: "Transforming marginalized youth, school dropouts, and PWDs into world-class software developers. Bridging Bukonzo West to the global digital economy.",
   keywords: ["software development", "training", "Kasese", "Uganda", "youth empowerment", "PWD", "technology education"],
   authors: [{ name: "Peligram Intelligence" }],
-  viewport: "width=device-width, initial-scale=1",
   icons: {
-    icon: "/favicon.ico",
+    icon: "/favicon.ico", // Ensure this file exists in /public
   },
 };
 
@@ -36,7 +42,7 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
       suppressHydrationWarning
     >
-      <body className="min-h-full flex flex-col bg-[#050505] font-sans">
+      <body className="min-h-full flex flex-col bg-[#050505] font-sans text-white">
         {children}
       </body>
     </html>
