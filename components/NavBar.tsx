@@ -215,5 +215,4 @@ const Navbar: React.FC<NavbarProps> = ({ isScrolled }) => {
     </motion.nav>
   );
 };
-
 export default Navbar;

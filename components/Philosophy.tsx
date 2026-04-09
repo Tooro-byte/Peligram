@@ -12,8 +12,8 @@ interface Stat {
 const stats: Stat[] = [
   { stat: "27%", label: "Teenage Pregnancy Rate", change: "-12% since 2024" },
   { stat: "8.7%", label: "PWD Population", change: "80% out of school" },
-  { stat: "150", label: "Active Trainees", change: "Cohort 2026" },
-  { stat: "88%", label: "Employment Rate", change: "Post-program placement" }
+  { stat: "150", label: "Active Trainees Every Six Months", change: "Cohort 2026" },
+  { stat: "60%", label: "Project Employment Rate by 2028", change: "Post-program placement" }
 ];
 
 const Philosophy: React.FC = () => {
@@ -40,7 +40,7 @@ const Philosophy: React.FC = () => {
             className="lg:col-span-7 space-y-8"
           >
             <div className="inline-flex items-center gap-3 px-5 py-2 bg-white/5 border border-white/10 rounded-full">
-              <span className="text-emerald-400 font-mono text-xs tracking-[3px] uppercase">LOGIC PHILOSOPHY</span>
+              <span className="text-emerald-400 font-mono text-xs tracking-[3px] uppercase">GUIDING PHILOSOPHY</span>
             </div>
 
             <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-none tracking-tighter">

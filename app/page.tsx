@@ -32,10 +32,16 @@ export default function Home() {
         {showEntry && <EntryPage onUnlock={() => setShowEntry(false)} />}
       </AnimatePresence>
 
-      {/* ADD containerRef to the main wrapper */}
+      {/* NAVBAR - RENDERED CONDITIONALLY BUT ALWAYS AT TOP LEVEL */}
+      {!showEntry && <Navbar isScrolled={isScrolled} />}
+
+      {/* MAIN CONTENT */}
       <div ref={containerRef} className={`${!showEntry ? "block" : "hidden"}`}>
+        {/* SPACER DIV - CRITICAL FOR FIXED NAVBAR */}
+        {!showEntry && <div style={{ height: "80px" }} />}
+        
         <main className="min-h-screen bg-[#050505] relative scroll-smooth selection:bg-blue-500/30">
-          {/* 21ST CENTURY BACKGROUND GRID */}
+          {/* GRID BACKGROUND */}
           <div
             className="fixed inset-0 z-0 pointer-events-none opacity-[0.03]"
             style={{
@@ -44,31 +50,17 @@ export default function Home() {
             }}
           />
 
-          {/* NAVIGATION: Persistent at the top */}
-          <Navbar isScrolled={isScrolled} />
-
-          {/* CORE CONTENT STRATEGY */}
+          {/* CONTENT SECTION */}
           <div className="relative z-10">
-            {/* 1. INITIALIZATION: The Brand Identity */}
             <Hero />
-
-            {/* 2. THE PROBLEM: Identifying "Unreachable Nodes" */}
             <About />
-
-            {/* 3. THE SKILLS: Full-Stack MERN Pipeline */}
-            <SkillPipeline />
-
-            {/* 4. THE PHILOSOPHY: Logic Behind Transformation */}
-            <Philosophy />
-
-            {/* 5. CALL TO ACTION: Registration Protocol */}
-            <Contact />
-
+             <SkillPipeline />  
             <AboutUs />
-            <Products />
+            <Philosophy />
+             <Products />
+            <Contact />
           </div>
 
-          {/* SYSTEM FOOTER */}
           <Footer />
         </main>
       </div>

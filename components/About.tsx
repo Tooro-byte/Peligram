@@ -27,7 +27,6 @@ function MagicDust() {
       const time = state.clock.elapsedTime;
       const positions = dustRef.current.geometry.attributes.position.array;
       for (let i = 0; i < dustCount; i++) {
-        // Gentle floating animation
         positions[i * 3 + 1] += 0.002;
         if (positions[i * 3 + 1] > 20) {
           positions[i * 3 + 1] = -15;
@@ -37,7 +36,6 @@ function MagicDust() {
       }
       dustRef.current.geometry.attributes.position.needsUpdate = true;
       
-      // Twinkling effect
       const material = dustRef.current.material as THREE.PointsMaterial;
       material.opacity = 0.5 + Math.sin(time * 3) * 0.2;
     }
@@ -105,7 +103,6 @@ function AuroraBorealis() {
     }
   });
 
-  // Custom shader for aurora effect
   const vertexShader = `
     varying vec2 vUv;
     void main() {
@@ -160,7 +157,6 @@ function ShootingStars() {
   );
 
   useFrame(() => {
-    // Randomly activate shooting stars
     if (Math.random() < 0.02) {
       const inactiveStar = starStates.current.find(s => !s.active);
       if (inactiveStar) {
@@ -172,7 +168,6 @@ function ShootingStars() {
       }
     }
 
-    // Update active shooting stars
     starStates.current.forEach((star) => {
       if (star.active) {
         star.progress += star.speed;
@@ -201,7 +196,7 @@ function ShootingStars() {
   );
 }
 
-// Colorful Ambient Lights (replacing orbs)
+// Colorful Ambient Lights
 function ColorfulAmbience() {
   const lightGroup = useRef<THREE.Group>(null);
 
@@ -210,7 +205,6 @@ function ColorfulAmbience() {
       const time = state.clock.elapsedTime;
       lightGroup.current.children.forEach((light, i) => {
         if (light instanceof THREE.Light) {
-          // Gentle intensity pulsing
           const intensity = 0.8 + Math.sin(time * 1.5 + i) * 0.3;
           light.intensity = intensity;
         }
@@ -218,17 +212,8 @@ function ColorfulAmbience() {
     }
   });
 
-  const colors = [
-    '#ff6b9d', '#ffb347', '#6b5bff', '#00d4ff', '#ff6b35', 
-    '#c44aff', '#00ff88', '#ffd700', '#ff44cc', '#44ffaa', 
-    '#ff8844', '#aa44ff'
-  ];
-
-  const positions = [
-    [-15, 5, -15], [18, -3, -18], [-12, -8, -12], [14, 10, -20],
-    [-8, 12, -14], [20, -5, -16], [-18, -2, -19], [10, 15, -22],
-    [-5, 8, -13], [22, 0, -17], [-20, 6, -21], [16, -10, -15]
-  ];
+  const colors = ['#ff6b9d', '#ffb347', '#6b5bff', '#00d4ff', '#ff6b35', '#c44aff', '#00ff88', '#ffd700', '#ff44cc', '#44ffaa', '#ff8844', '#aa44ff'];
+  const positions = [[-15,5,-15],[18,-3,-18],[-12,-8,-12],[14,10,-20],[-8,12,-14],[20,-5,-16],[-18,-2,-19],[10,15,-22],[-5,8,-13],[22,0,-17],[-20,6,-21],[16,-10,-15]];
 
   return (
     <group ref={lightGroup}>
@@ -286,42 +271,17 @@ const About: React.FC = () => {
       {/* Utopian Background */}
       <div className="absolute inset-0 z-0">
         <Canvas camera={{ position: [0, 5, 20], fov: 60 }}>
-          {/* Dreamy gradient background */}
           <color attach="background" args={['#0a0a2e']} />
-          
-          {/* Ambient magical lighting */}
           <ambientLight intensity={0.4} color="#2a1a4e" />
-          
-          {/* Fog */}
           <fogExp2 attach="fog" args={['#0a0a2e', 0.008]} />
           
-          {/* Colorful Ambient Lights (replaces floating orbs) */}
           <ColorfulAmbience />
-          
-          {/* Aurora Borealis */}
           <AuroraBorealis />
-          
-          {/* Dream Clouds */}
           <DreamClouds />
-          
-          {/* Magic Dust Particles */}
           <MagicDust />
-          
-          {/* Shooting Stars */}
           <ShootingStars />
           
-          {/* Twinkling Stars Background */}
-          <Stars 
-            radius={300} 
-            depth={100} 
-            count={3000} 
-            factor={5} 
-            saturation={0.8} 
-            fade 
-            speed={0.5} 
-          />
-          
-          {/* Sparkles effect */}
+          <Stars radius={300} depth={100} count={3000} factor={5} saturation={0.8} fade speed={0.5} />
           <Sparkles count={100} scale={30} size={0.3} speed={0.4} color="#ff88ff" />
           <Sparkles count={80} scale={25} size={0.2} speed={0.6} color="#88ff88" />
           <Sparkles count={120} scale={35} size={0.25} speed={0.3} color="#8888ff" />
@@ -336,13 +296,12 @@ const About: React.FC = () => {
         style={{ x: glowX, y: glowY, left: "50%", top: "42%" }}
       />
 
-      {/* Rainbow overlay gradient */}
       <div className="absolute inset-0 bg-gradient-to-tr from-blue-600/5 via-purple-600/5 to-cyan-600/5 pointer-events-none z-10" />
 
       <div className="max-w-7xl mx-auto relative z-20">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
           
-          {/* Photo Frame with magical border */}
+          {/* Photo Frame */}
           <div className="relative flex justify-center lg:justify-start">
             <div className="relative w-full max-w-[520px]">
               {/* Animated rainbow border glow */}
@@ -355,65 +314,33 @@ const About: React.FC = () => {
                 className="relative rounded-3xl overflow-hidden border border-white/20 shadow-2xl bg-black/60 backdrop-blur-sm"
               >
                 <div className="relative aspect-[4/3] overflow-hidden">
-  <Image
-    src="/drug.webp"
-    alt="Mpondwe Community Vision"
-    fill
-    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-    className="object-cover"
-    priority
-  />
-  <div className="absolute inset-0 bg-gradient-to-t from-purple-900/60 via-transparent to-blue-900/30" />
-</div>
-
-                {/* Floating Animals */}
-                <motion.div
-                  animate={{ 
-                    y: [0, -28, 0], 
-                    rotateX: [0, 18, 0], 
-                    rotateY: [0, 25, 0],
-                    scale: [1, 1.1, 1]
-                  }}
-                  transition={{ duration: 6.5, repeat: Infinity }}
-                  className="absolute -top-12 -right-10 w-32 h-32 bg-gradient-to-br from-cyan-500/20 to-purple-500/20 backdrop-blur-2xl rounded-3xl border border-cyan-400/40 flex items-center justify-center text-6xl shadow-2xl"
-                >
-                  🦒
-                </motion.div>
-
-                <motion.div
-                  animate={{ 
-                    y: [0, 34, 0], 
-                    rotateX: [0, -16, 0], 
-                    rotateY: [0, -30, 0],
-                    scale: [1, 1.08, 1]
-                  }}
-                  transition={{ duration: 7.8, repeat: Infinity, delay: 1.6 }}
-                  className="absolute -bottom-10 -left-14 w-28 h-28 bg-gradient-to-tr from-orange-500/20 to-pink-500/20 backdrop-blur-2xl rounded-3xl border border-orange-400/40 flex items-center justify-center text-6xl shadow-2xl"
-                >
-                  🐆
-                </motion.div>
-
-                {/* Glowing runes around frame */}
-                <div className="absolute inset-0 pointer-events-none">
-                  {[...Array(8)].map((_, i) => (
-                    <div
-                      key={i}
-                      className="absolute w-2 h-2 bg-cyan-400 rounded-full animate-pulse"
-                      style={{
-                        top: i === 0 ? '-8px' : i === 4 ? 'auto' : '50%',
-                        bottom: i === 4 ? '-8px' : 'auto',
-                        left: i === 2 ? '-8px' : i === 6 ? 'auto' : '50%',
-                        right: i === 6 ? '-8px' : 'auto',
-                        transform: 'translate(-50%, -50%)'
-                      }}
-                    />
-                  ))}
+                  <Image
+                    src="/drug.webp"
+                    alt="Mpondwe Community Vision"
+                    fill
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    className="object-cover"
+                    priority
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-purple-900/60 via-transparent to-blue-900/30" />
                 </div>
               </motion.div>
 
-              <div className="absolute -bottom-6 left-1/2 -translate-x-1/2 bg-black/80 backdrop-blur-xl border border-cyan-400/50 px-8 py-3 rounded-full text-xs font-mono tracking-[3px] text-cyan-300 shadow-lg">
-                Drug Addict
-              </div>
+              {/* Description Card - Below the Photo */}
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.3, duration: 0.9 }}
+                className="mt-10 mx-auto max-w-md"
+              >
+                <div className="bg-zinc-950/80 border border-white/10 backdrop-blur-xl rounded-3xl p-8 text-center shadow-xl">
+                  <p className="text-cyan-200 text-[15px] leading-relaxed italic">
+                    Every developer was once a beginner. Every recovered addict was once lost. 
+                    Both found their way through practice and support.
+                  </p>
+                  <div className="w-8 h-px bg-gradient-to-r from-transparent via-cyan-400 to-transparent mx-auto mt-6" />
+                </div>
+              </motion.div>
             </div>
           </div>
 

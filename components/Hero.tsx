@@ -53,7 +53,7 @@ const Hero: React.FC = () => {
           >
             <div className="flex items-center gap-2 mb-2">
               <div className="w-1 h-6 bg-gradient-to-b from-blue-500 to-purple-500" />
-              <span className="text-[10px] font-mono text-blue-400 tracking-[0.2em] uppercase">Bukonzo West // Kasese District</span>
+              <span className="text-[10px] font-mono text-yellow-400 tracking-[0.2em] uppercase">Behind every screen is a person. Behind every person is a story. Behind every story is a second chance.</span>
             </div>
             
             <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white leading-[1.15] tracking-tight">
